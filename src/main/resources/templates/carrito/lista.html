@@ -12,7 +12,7 @@
             </div>
             <div class="container-fluid">
 
-                <a class="btn btn-success mt-4 mb-4" th:href="..."><span class="bi bi-credit-card"></span> Comprar</a>
+                <a class="btn btn-success mt-4 mb-4" th:href="@{/carrito/compra}"><span class="bi bi-credit-card"></span> Comprar</a>
                 <div th:if="${msg != null}" class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="bi bi-check-circle-fill"></i>
                     <span th:text="${msg}"></span>
@@ -22,13 +22,23 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th></th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Plataforma</th>
+                        <th>Distribuidora</th>
+                        <th>Precio (S/)</th>
                         <th style="width: 8%"></th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr >
-                        <td><a class="btn btn-danger" th:title="Borrar" th:href=""><span class="bi bi-trash"></span></a></td>
+                    <tr th:each="juego: ${carrito}">
+                        <td th:text="${juego.image}"></td>
+                        <td th:text="${juego.nombre}"></td>
+                        <td th:text="${juego.descripcion}"></td>
+                        <td th:text="${juego.plataforma}"></td>
+                        <td th:text="${juego.distribuidora.nombre}"></td>
+                        <td th:text="${juego.precio}"></td>
+                        <td><a class="btn btn-danger" th:title="Borrar" th:href="@{/carrito/borrar}"><span class="bi bi-trash"></span></a></td>
                     </tr>
                     </tbody>
                 </table>
