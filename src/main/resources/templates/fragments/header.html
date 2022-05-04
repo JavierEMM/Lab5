@@ -11,13 +11,13 @@
             <img th:src="@{/img/icon.png}" width="30" height="30" class="d-inline-block align-top" alt="" loading="lazy">
             GameShop4 <span style="color: black;">[Lab 5]</span>
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-app" aria-controls="navbar-app" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+        <button sec:authorize="isAuthenticated()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-app" aria-controls="navbar-app" aria-expanded="false" aria-label="Toggle navigation">
+            <!--span sec:authorize="isAuthenticated()" class="navbar-toggler-icon" th:text="|(${session.usuario.autorizacion}) ${session.usuario.nombres} ${session.usuario.apellidos}|"></span-->
         </button>
         <div class="collapse navbar-collapse justify-content-star" id="navbar-app">
             <ul sec:authorize="isAuthenticated()" class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" th:classappend="${option == 'Vista'}?'active' :''" th:href="@{/juegos/vista}">Juegos</a>
+                    <a class="nav-link" th:classappend="${option == 'Vista'}?'active' :''" th:href="@{/vista}">Juegos</a>
                 </li>
                 <li sec:authorize="hasAuthority('USER')" class="nav-item">
                     <a class="nav-link" th:classappend="${option == 'Juegos'}?'active' :''" th:href="@{/juegos/lista}"><span>Mis </span>Juegos</a>

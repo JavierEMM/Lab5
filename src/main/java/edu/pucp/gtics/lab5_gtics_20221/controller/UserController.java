@@ -26,7 +26,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-
+    @Autowired
+    UserRepository userRepository;
     @GetMapping("/signIn")
     public String signIn(){
         return "user/signIn";
@@ -38,7 +39,8 @@ public class UserController {
             rol = role.getAuthority();
             break;
         }
-        session.setAttribute("usuario",rol);
+        session.setAttribute("usuario",userRepository.findByCorreo(auth.getName()));
+        System.out.println();
         return "redirect:/juegos/lista";
     }
 
