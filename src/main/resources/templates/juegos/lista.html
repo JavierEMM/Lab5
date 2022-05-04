@@ -15,7 +15,7 @@
                 <a class="btn btn-primary mt-4 mb-4" th:href="@{/juegos/nuevo}"><span class="bi bi-plus-circle"></span> Nuevo Juego</a>
                 <div th:if="${msg != null}" class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="bi bi-check-circle-fill"></i>
-                    <span th:text="${msg}"></span>
+                    <span th:text="${msg}">Buena ahi sobrino</span>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
                 <table class="table table-striped">
@@ -33,7 +33,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr">
+                    <tr th:each="juegos,i : ${listaJuegos}">
+                        <td th:text="${i.index + 1}"></td>
+                        <td th:text="${juegos.nombre}"></td>
+                        <td th:text="${juegos.descripcion}"></td>
+                        <td th:text="${juegos.plataforma.nombre}"></td>
+                        <td th:text="${juegos.distribuidora.nombre}"></td>
+                        <td th:text="${juegos.precio}"></td>
+
 
                         <td><a class="btn btn-primary" th:title="Editar" ><span class="bi bi-pencil-square"></span></a></td>
                         <td><a class="btn btn-danger" th:title="Borrar" ><span class="bi bi-trash"></span></a></td>
