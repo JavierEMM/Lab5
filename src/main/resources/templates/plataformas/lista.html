@@ -1,0 +1,50 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/base.html :: head(title='Gameshop4 - Bienvenido')"></head>
+<body>
+<div class='container container-app'>
+    <div th:replace="fragments/header.html :: header(option='Plataformas')"></div>
+
+    <div id="content">
+        <main>
+            <!-- Contenido -->
+            <div class="page-header text-center">
+                <h1>Lista de Plataformas</h1>
+            </div>
+            <div class="container-fluid">
+
+                <a class="btn btn-primary mt-4 mb-4" th:href="@{/plataformas/nuevo}"><span class="bi bi-plus-circle"></span> Nueva Plataforma</a>
+                <div th:if="${msg != null}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <span th:text="${msg}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="plataforma, info : ${listaplataformas}">
+                        <td th:text="${info.index + 1}"></td>
+                        <td th:text="${plataforma.nombre}"></td>
+                        <td th:text="${plataforma.descripcion}"></td>
+                        <td><a class="btn btn-primary" th:title="Editar" th:href="@{'/plataformas/editar?id=' + ${plataforma.idplataforma}}"><span class="bi bi-pencil-square"></span></a></td>
+                        <td><a class="btn btn-danger" th:title="Borrar" th:href="@{'/plataformas/borrar?id=' + ${plataforma.idplataforma}}"><span class="bi bi-trash"></span></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <!-- /Contenido -->
+        </main>
+        <div th:replace="fragments/footer.html :: footer(year='2022')"></div>
+    </div>
+</div>
+<div th:replace="fragments/base.html :: jsScripts"></div>
+</body>
+</html>

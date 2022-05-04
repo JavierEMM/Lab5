@@ -1,0 +1,86 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/base.html :: head(title='Gameshop4 - Bienvenido')"></head>
+<body>
+<div class='container container-app'>
+    <div th:replace="fragments/header.html :: header(option='Juegos')"></div>
+
+    <div id="content">
+        <main>
+            <!-- Contenido -->
+        <div class="page-header text-center">
+            <h2 th:text="${juego.idjuego == 0? 'Nuevo Juego' : 'Editar Juego'}"></h2>
+        </div>
+        <div class="container-fluid">
+                <form method="POST" class="row g-3" th:object="${juego}"  th:action="@{/juegos/guardar}">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('nombre')?'is-invalid':''}" th:field="*{nombre}" >
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">Error</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea class="form-control" th:classappend="${#fields.hasErrors('descripcion')?'is-invalid':''}" id="descripcion" name="descripcion" th:field="*{descripcion}"></textarea>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Error</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="genero.idgenero">Género</label>
+                        <select class=" form-select" th:classappend="${#fields.hasErrors('genero.idgenero')?'is-invalid':''}" th:field="*{genero.idgenero}" >
+                            <option value="-1">- Seleccione -</option>
+                            <option th:each="genero : ${listaGeneros}"
+                                    th:value="${genero.idgenero}"
+                                    th:text="${genero.nombre}"
+                                    th:selected="(${genero.idgenero} == *{genero.idgenero})" ></option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('genero.idgenero')}" th:errors="*{genero.idgenero}">Error</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="plataforma.idplataforma">Plataforma</label>
+                        <select class="form-select" th:classappend="${#fields.hasErrors('plataforma.idplataforma')?'is-invalid':''}" th:field="*{plataforma.idplataforma}" >
+                          <option value="-1">- Seleccione -</option>
+                          <option th:each="plataforma : ${listaPlataformas}"
+                              th:value="${plataforma.idplataforma}"
+                              th:text="${plataforma.nombre}"
+                              th:selected="(${plataforma.idplataforma} == *{plataforma.idplataforma})" ></option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('plataforma.idplataforma')}" th:errors="*{plataforma.idplataforma}">Error</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="distribuidora.iddistribuidora">Distribuidora</label>
+                        <select class="form-select" th:classappend="${#fields.hasErrors('distribuidora.iddistribuidora')?'is-invalid':''}" th:field="*{distribuidora.iddistribuidora}" >
+                            <option value="-1">- Seleccione -</option>
+                            <option th:each="distribuidora : ${listaDistribuidoras}"
+                                    th:value="${distribuidora.iddistribuidora}"
+                                    th:text="${distribuidora.nombre}"
+                                    th:selected="(${distribuidora.iddistribuidora} == *{distribuidora.iddistribuidora})" ></option>
+                        </select>
+                        <div class="invalid-feedback" th:if="${#fields.hasErrors('distribuidora.iddistribuidora')}" th:errors="*{distribuidora.iddistribuidora}">Error</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Imagen URL</label>
+                        <input type="text" class="form-control"  th:field="*{image}" >
+                    </div>
+                    <div class="form-group">
+                        <label>Precio</label>
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">S/</div>
+                            </div>
+                            <input type="text" th:classappend="${#fields.hasErrors('precio')?'is-invalid':''}" class="form-control"  th:field="*{precio}" >
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('precio')}" th:errors="*{precio}">Error</div>
+                        </div>
+                    </div>
+                    <input type="hidden" th:field="*{idjuego}" />
+                    <div class="form-group">
+                        <a th:href="@{/juegos/lista}" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-primary" th:text="${juego.idjuego == 0? 'Registrar' : 'Actualizar'}">Reg/act</button>
+                    </div>
+                </form>
+        </div>
+        </main>
+    </div>
+            <!-- /Contenido -->
+    <div th:replace="fragments/footer.html :: footer(year='2022')"></div>
+</div>
+<div th:replace="fragments/base.html :: jsScripts"></div>
+</body>
+</html>

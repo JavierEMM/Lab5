@@ -1,0 +1,39 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/base.html :: head(title='Gameshop4 - Bienvenido')"></head>
+<body>
+<div class='container'>
+    <div th:replace="fragments/header.html :: header(option='Plataformas')"></div>
+
+    <div id="content">
+        <main>
+            <!-- Contenido -->
+        <div class="page-header text-center">
+            <h2 th:text="${plataforma.idplataforma == 0? 'Nuevo Plataforma' : 'Editar Plataforma'}"></h2>
+        </div>
+        <div class="container-fluid">
+                <form method="POST"  class="row g-3" th:object="${plataforma}" th:action="@{/plataformas/guardar}">
+                    <div class="form-group">
+                        <label for="nombre">Nombre</label>
+                        <input type="text" class="form-control" th:classappend="${#fields.hasErrors('nombre')?'is-invalid':''}" id="nombre" name="nombre" th:field="*{nombre}" >
+                        <div class="text-danger" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">Error</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descripcion">Descripción</label>
+                        <textarea class="form-control" th:classappend="${#fields.hasErrors('descripcion')?'is-invalid':''}" id="descripcion" name="descripcion" th:field="*{descripcion}"></textarea>
+                        <div class="text-danger" th:if="${#fields.hasErrors('descripcion')}" th:errors="*{descripcion}">Error</div>
+                    </div >
+                    <input type="hidden" th:field="*{idplataforma}" th:if="${plataforma.idplataforma > 0}" />
+                    <div class="form-group">
+                        <a th:href="@{/plataformas/lista}" class="btn btn-danger">Cancelar</a>
+                        <button type="submit" class="btn btn-primary" th:text="${plataforma.idplataforma == 0? 'Registrar' : 'Actualizar'}">Reg/act</button>
+                    </div>
+                </form>
+        </div>
+        </main>
+    </div>
+            <!-- /Contenido -->
+    <div th:replace="fragments/footer.html :: footer(year='2022')"></div>
+</div>
+<div th:replace="fragments/base.html :: jsScripts"></div>
+</body>
+</html>
