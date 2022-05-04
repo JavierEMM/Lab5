@@ -24,7 +24,7 @@ public interface JuegosRepository extends JpaRepository<Juegos,Integer> {
     @Query(value = "Insert INTO juegosxusuario (idusuario, idjuego, cantidad) VALUES (?,?,1)", nativeQuery = true)
     void registrarJuegoPorUser(int idusuario, int idjuego);
 
-    @Query(value = "select * from gameshop4.juegos order by nombre desc", nativeQuery = true)
-    List<Juegos> listaJuegosDescendentes();
+    @Query(value = "select * from gameshop4.juegos order by nombre asc ", nativeQuery = true)
+    List<Juegos> listaJuegosAscendentes();
 
 }

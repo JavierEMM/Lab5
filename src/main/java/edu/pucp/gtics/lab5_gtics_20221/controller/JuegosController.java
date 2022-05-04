@@ -52,7 +52,7 @@ public class JuegosController {
 
     @GetMapping(value = {"", "/", "/vista"})
     public String vistaJuegos ( Model model){
-        List<Juegos> listaJuegos = juegosRepository.listaJuegosDescendentes();
+        List<Juegos> listaJuegos = juegosRepository.listaJuegosAscendentes();
         model.addAttribute("listaJuegos", listaJuegos);
         return "juegos/vista";
 
