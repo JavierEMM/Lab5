@@ -40,7 +40,7 @@ public class JuegosController {
     @GetMapping(value = {"/juegos/lista"})
     public String listaJuegos (Model model, HttpSession session,Authentication authentication){
         User sessionUser = (User) session.getAttribute("usuario");
-        if(sessionUser.equals("ADMIN")){
+        if(sessionUser.getAutorizacion().equals("ADMIN")){
             model.addAttribute("listaJuegos", juegosRepository.findAll());
             return "juegos/lista";
         }else{

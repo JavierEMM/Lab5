@@ -40,7 +40,6 @@ public class UserController {
             break;
         }
         session.setAttribute("usuario",userRepository.findByCorreo(auth.getName()));
-        System.out.println();
         return "redirect:/juegos/lista";
     }
 

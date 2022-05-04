@@ -29,10 +29,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true);
 
         http.authorizeRequests()
-                .antMatchers("/juegos","/juegos/**").hasAnyAuthority("ADMIN","USER")
+                .antMatchers("/juegos","/juegos/lista").hasAnyAuthority("ADMIN","USER")
+                .antMatchers("", "/", "/vista").hasAnyAuthority("USER")
                 .antMatchers("/distribuidoras","/distribuidoras/**").hasAnyAuthority("ADMIN")
-                .antMatchers("/plataformas","/plataformas/**").hasAnyAuthority("ADMIN")
-                .anyRequest().permitAll();
+                .antMatchers("/plataformas","/plataformas/**").hasAnyAuthority("ADMIN");
     }
 
     @Override
