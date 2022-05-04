@@ -8,5 +8,4 @@ public interface JuegosUserDto {
     String getGenero();
     String getDescripcion();
 
-
 }

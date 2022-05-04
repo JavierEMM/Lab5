@@ -12,15 +12,18 @@
             GameShop4 <span style="color: black;">[Lab 5]</span>
         </a>
         <button sec:authorize="isAuthenticated()" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-app" aria-controls="navbar-app" aria-expanded="false" aria-label="Toggle navigation">
-            <!--span sec:authorize="isAuthenticated()" class="navbar-toggler-icon" th:text="|(${session.usuario.autorizacion}) ${session.usuario.nombres} ${session.usuario.apellidos}|"></span-->
+            <span sec:authorize="isAuthenticated()" class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-star" id="navbar-app">
             <ul sec:authorize="isAuthenticated()" class="navbar-nav">
-                <li class="nav-item">
+                <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
                     <a class="nav-link" th:classappend="${option == 'Vista'}?'active' :''" th:href="@{/juegos/lista}">Juegos</a>
                 </li>
                 <li sec:authorize="hasAuthority('USER')" class="nav-item">
-                    <a class="nav-link" th:classappend="${option == 'Juegos'}?'active' :''" th:href="@{/vista}"><span>Mis </span>Juegos</a>
+                    <a class="nav-link" th:classappend="${option == 'Vista'}?'active' :''" th:href="@{/vista}">Juegos</a>
+                </li>
+                <li sec:authorize="hasAuthority('USER')" class="nav-item">
+                    <a class="nav-link" th:classappend="${option == 'Juegos'}?'active' :''" th:href="@{/juegos/lista}"><span>Mis </span>Juegos</a>
                 </li>
                 <li sec:authorize="hasAuthority('ADMIN')" class="nav-item" >
                     <a class="nav-link" th:classappend="${option == 'Plataformas'}?'active' :''" th:href="@{/plataformas/lista}" >Plataformas</a>
@@ -38,19 +41,19 @@
                 </ul>
                 <ul sec:authorize="hasAnyAuthority('USER','ADMIN')" class="navbar-nav">
                     <li sec:authorize="hasAnyAuthority('USER')" class="nav-item">
-                            <a class="nav-link" th:href="@{/carrito}" th:text="|Carrito de compras|">
-                            <i class="bi bi-cart3 position-relative" style="font-size: 20px;">
+                            <a class="nav-link" th:href="@{/carrito/lista}" th:title="|Carrito de compras|">
+                            <i th:text="|(${session.ncarrito})|" class="bi bi-cart3 position-relative" style="font-size: 20px;">
                             </i>
                         </a>
                     </li>
                     <li sec:authorize="hasAnyAuthority('USER','ADMIN')" class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a  th:text="|(${session.usuario.autorizacion}) ${session.usuario.nombres} ${session.usuario.apellidos}|" class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink" style="width: -webkit-fill-available;text-align: -webkit-center;">
                             <li>
                                 <a class="dropdown-item" href="#">
                                     <form class="form-inline my-4 my-lg-0" th:action="@{/logout}" method="post">
-                                        <button type="submit" class="btn btn-link btn-sm nav-link" style="color: #c82333; border-left-width: 0px; padding-left: 0px;"><span class="bi bi-box-arrow-left"></span> Cerrar Sesión</button>
+                                        <button type="submit" class="btn btn-link btn-sm nav-link" style="color: #c82333; border-left-width: 0px; padding-left: 0px;"><span class="bi bi-box-arrow-left" ></span> Cerrar Sesión</button>
                                     </form>
                                 </a>
                             </li>

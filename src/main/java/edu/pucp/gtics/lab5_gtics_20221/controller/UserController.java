@@ -39,6 +39,8 @@ public class UserController {
             rol = role.getAuthority();
             break;
         }
+        ArrayList<Juegos> carrito = new ArrayList<>();
+        session.setAttribute("carrito",carrito);
         session.setAttribute("usuario",userRepository.findByCorreo(auth.getName()));
         return "redirect:/juegos/lista";
     }

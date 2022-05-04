@@ -25,37 +25,47 @@ public class CarritoController {
 
     @Autowired
     JuegosRepository juegosRepository;
+    @Autowired
+    JuegosxUsuarioRepository juegosxUsuarioRepository;
 
     @GetMapping("/lista")
-    public String listaCarrito (Model model, HttpSession sesion){
+    public String listaCarrito (Model model, HttpSession session){
 
-        ArrayList<Juegos> carrito = (ArrayList<Juegos>) sesion.getAttribute("carrito");
-        if(carrito == null){
-            carrito = new ArrayList<Juegos>();
-            sesion.setAttribute("carrito",carrito);
-        }
-        sesion.setAttribute("ncarrito",carrito.size());
+        ArrayList<Juegos> carrito = (ArrayList<Juegos>) session.getAttribute("carrito");
+        session.setAttribute("ncarrito",carrito.size());
         model.addAttribute("carrito",carrito);
         return "carrito/lista";
     }
 
     @GetMapping("/compra")
-    public String comprarCarrito(HttpSession sesion ){
-        ArrayList<Juegos> carrito = (ArrayList<Juegos>) sesion.getAttribute("carrito");
+    public String comprarCarrito(HttpSession session,Authentication authentication){
+        ArrayList<Juegos> carrito = (ArrayList<Juegos>) session.getAttribute("carrito");
+        ArrayList<JuegosxUsuario> juegosxUsuarios = new ArrayList<>();
+        User user =  userRepository.findByCorreo(authentication.getName());
         for(Juegos i:carrito){
-            juegosRepository.obtenerJuegosPorUser(i.getIdjuego());
+            JuegosxUsuario juegosxUsuario = new JuegosxUsuario();
+            juegosxUsuario.setIdjuego(i);
+            juegosxUsuario.setIdusuario(user);
+            juegosxUsuarios.add(juegosxUsuario);
         }
+        juegosxUsuarioRepository.saveAll(juegosxUsuarios);
         carrito.clear();
+        session.setAttribute("carrito",carrito);
+        session.setAttribute("ncarrito",carrito.size());
         return "redirect:/vista";
     }
 
     @GetMapping("/agregar")
-    public String nuevoCarrito(@RequestParam("id") int id, HttpSession sesion){
-        ArrayList<Juegos> carrito = (ArrayList<Juegos>) sesion.getAttribute("carrito");
-        Juegos juego = juegosRepository.getById(id);
-        carrito.add(juego);
-        sesion.setAttribute("carrito",carrito);
-        sesion.setAttribute("ncarrito",carrito.size());
+    public String nuevoCarrito(@RequestParam("id") int id, HttpSession session){
+        ArrayList<Juegos> carrito = (ArrayList<Juegos>) session.getAttribute("carrito");
+        Optional<Juegos> juego = juegosRepository.findById(id);
+        if(juego.isPresent()){
+            carrito.add(juego.get());
+        }else{
+            return "redirect:/vista";
+        }
+        session.setAttribute("carrito",carrito);
+        session.setAttribute("ncarrito",carrito.size());
         return "redirect:/vista";
     }
 
@@ -68,9 +78,19 @@ public class CarritoController {
     public String borrarCarrito(@RequestParam("id") int id, HttpSession sesion){
         ArrayList<Juegos> carrito = (ArrayList<Juegos>) sesion.getAttribute("carrito");
         Optional<Juegos> optionalJuegos = juegosRepository.findById(id);
+
         if(optionalJuegos.isPresent()){
-            carrito.remove(optionalJuegos);
-            return "redirect:/admin/salas";
+            Integer ids = optionalJuegos.get().getIdjuego();
+            int i=0;
+            for(Juegos juego:carrito){
+                if(juego.getIdjuego() == ids){
+                    break;
+                }
+                i=i+1;
+            }
+            carrito.remove(i);
+
+            sesion.setAttribute("carrito",carrito);
         }
         return "redirect:/carrito/lista";
     }

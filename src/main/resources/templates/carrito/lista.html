@@ -22,6 +22,7 @@
                     <thead>
                     <tr>
                         <th>#</th>
+                        <th></th>
                         <th>Nombre</th>
                         <th>Descripcion</th>
                         <th>Plataforma</th>
@@ -31,14 +32,15 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="juego: ${carrito}">
-                        <td th:text="${juego.image}"></td>
+                    <tr th:each="juego,i: ${carrito}">
+                        <td th:text="${i.index+1}"></td>
+                        <td><img width="100px" height="100px" th:src="${juego.image}"></td>
                         <td th:text="${juego.nombre}"></td>
                         <td th:text="${juego.descripcion}"></td>
-                        <td th:text="${juego.plataforma}"></td>
+                        <td th:text="${juego.plataforma.nombre}"></td>
                         <td th:text="${juego.distribuidora.nombre}"></td>
                         <td th:text="${juego.precio}"></td>
-                        <td><a class="btn btn-danger" th:title="Borrar" th:href="@{/carrito/borrar}"><span class="bi bi-trash"></span></a></td>
+                        <td><a class="btn btn-danger" th:title="Borrar" th:href="@{'/carrito/borrar?id='+${juego.idjuego}}"><span class="bi bi-trash"></span></a></td>
                     </tr>
                     </tbody>
                 </table>

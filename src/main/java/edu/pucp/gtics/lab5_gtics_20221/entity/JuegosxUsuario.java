@@ -25,7 +25,7 @@ public class JuegosxUsuario implements Serializable{
     private User idusuario;
 
     @Column(name = "cantidad")
-    private Integer cantidad;
+    private Integer cantidad = 1;
 
     public Integer getCantidad() {
         return cantidad;
