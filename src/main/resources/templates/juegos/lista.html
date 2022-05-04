@@ -24,6 +24,7 @@
                         <th>#</th>
                         <th></th>
                         <th style="width: 18%">Nombre</th>
+                        <th style="width: 18%"></th>
                         <th style="width: 32%">Descripción</th>
                         <th style="width: 20%">Plataforma</th>
                         <th style="width: 10%">Distribuidora</th>
@@ -35,6 +36,7 @@
                     <tbody>
                     <tr th:each="juegos,i : ${listaJuegos}">
                         <td th:text="${i.index + 1}"></td>
+                        <td><img th:src="${juegos.image}" width="100" height="150"></td>
                         <td th:text="${juegos.nombre}"></td>
                         <td th:text="${juegos.descripcion}"></td>
                         <td th:text="${juegos.plataforma.nombre}"></td>

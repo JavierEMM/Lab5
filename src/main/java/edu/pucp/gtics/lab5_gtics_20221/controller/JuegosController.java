@@ -40,7 +40,7 @@ public class JuegosController {
     @GetMapping(value = {"/juegos/lista"})
     public String listaJuegos (Model model, HttpSession session,Authentication authentication){
         User sessionUser = (User) session.getAttribute("usuario");
-        if(sessionUser.equals("ADMIN")){
+        if(sessionUser.getAutorizacion().equals("ADMIN")){
             model.addAttribute("listaJuegos", juegosRepository.findAll());
             return "juegos/lista";
         }else{
@@ -52,7 +52,7 @@ public class JuegosController {
 
     @GetMapping(value = {"", "/", "/vista"})
     public String vistaJuegos ( Model model){
-        List<Juegos> listaJuegos = juegosRepository.listaJuegosDescendentes();
+        List<Juegos> listaJuegos = juegosRepository.listaJuegosAscendentes();
         model.addAttribute("listaJuegos", listaJuegos);
         return "juegos/vista";
 
