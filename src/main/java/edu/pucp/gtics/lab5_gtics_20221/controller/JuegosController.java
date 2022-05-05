@@ -51,11 +51,22 @@ public class JuegosController {
     }
 
     @GetMapping(value = {"", "/", "/vista"})
-    public String vistaJuegos ( Model model){
-        List<Juegos> listaJuegos = juegosRepository.listaJuegosAscendentes();
-        model.addAttribute("listaJuegos", listaJuegos);
-        return "juegos/vista";
+    public String vistaJuegos (Authentication auth, Model model, HttpSession session){
 
+
+
+        if(session.getAttribute("usuario") == null){
+            List<Juegos> listaJuegos = juegosRepository.listaJuegosDescendentes();
+            model.addAttribute("listaJuegos", listaJuegos);
+        }else{
+            User user =(User) session.getAttribute("usuario");
+            if(user.getAutorizacion().equalsIgnoreCase("USER")){
+                model.addAttribute("listaJuegos",juegosRepository.obtenerJuegosnocomprados(user.getIdusuario()));
+            }else{
+                model.addAttribute("listaJuegos", juegosRepository.listaJuegosDescendentes());
+            }
+        }
+        return "juegos/vista";
     }
 
     @GetMapping("/juegos/nuevo")

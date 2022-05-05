@@ -42,7 +42,9 @@
                 <ul sec:authorize="hasAnyAuthority('USER','ADMIN')" class="navbar-nav">
                     <li sec:authorize="hasAnyAuthority('USER')" class="nav-item">
                             <a class="nav-link" th:href="@{/carrito/lista}" th:title="|Carrito de compras|">
-                            <i th:text="|(${session.ncarrito})|" class="bi bi-cart3 position-relative" style="font-size: 20px;">
+                            <i class="bi bi-cart3 position-relative" style="font-size: 20px;">
+                                <span th:text="(${session.ncarrito})" class="position-absolute top-50 badge rounded-pill bg-danger"  style="font-size: 10px;left: 12px;">
+                                    </span>
                             </i>
                         </a>
                     </li>
